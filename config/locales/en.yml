@@ -22,3 +22,11 @@ en:
     variant_prices_search_placeholder: Search for SKU or variant name...
     notice_messages:
       prices_saved: Prices successfully saved
+
+  activerecord:
+    attributes:
+      spree/order:
+        considered_risky: Risk
+        state: Order State
+        payment_state: Payment
+        shipment_state: Shipment
