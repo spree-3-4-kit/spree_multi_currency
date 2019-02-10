@@ -1,0 +1,6 @@
+<div class="panel-body">
+  <div class="form-group no-marginb">
+    <%= label_tag Spree.t('currency_rule.label') %>
+    <%= select_tag("#{param_prefix}[preferred_currency]", options_for_select(Spree::Config[:supported_currencies].split(","), promotion_rule.preferred_currency), { class: 'select2' }) %>
+  </div>
+</div>
