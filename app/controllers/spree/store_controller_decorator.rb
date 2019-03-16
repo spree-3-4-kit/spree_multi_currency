@@ -14,7 +14,6 @@ def set_locale
         #end
       #end
 
-      
 
       # IF the visitor has previously set a prefered currency, then set the store to use the visitors preffered currency.
       if (!cookies[:customer_preffered_currency].blank?) && (cookies[:customer_preffered_currency_returing_set].blank?) && (cookies[:customer_preffered_currency]) != current_currency
