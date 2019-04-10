@@ -7,14 +7,6 @@ module Spree
 # START set_locale
 def set_locale
 
-      #ToDo Set order currency to match current currency check.
-      #if current_order
-        #if current_order.currency != current_currency
-          #params[:currency] = current_currency
-        #end
-      #end
-
-
       # IF the visitor has previously set a prefered currency, then set the store to use the visitors preffered currency.
       if (!cookies[:customer_preffered_currency].blank?) && (cookies[:customer_preffered_currency_returing_set].blank?) && (cookies[:customer_preffered_currency]) != current_currency
 
@@ -70,6 +62,13 @@ def set_locale
               end
           end
           (cookies[:geo_currency] = params[:currency])
+      end
+
+      #ToDo Set order currency to match current currency check.
+      if current_order
+        if current_order.currency != current_currency
+          params[:currency] = current_currency
+        end
       end
 
   # Switches the currency based on the paremeters given.
