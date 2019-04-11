@@ -61,14 +61,14 @@ module Spree
               session[:geo_currency] = params[:currency]
           end
 
-          # Set order currency to match current currency check.
+          # Keep the store currency and order currency in sync 
           if current_order
             if current_order.currency != current_currency
               params[:currency] = current_currency
             end
           end
 
-          # Switches the currency based on the paremeters given.
+          # Switch the currency based on the params given.
           if params[:currency].present?
             @currency = supported_currencies.find { |currency| currency.iso_code == params[:currency] }
             current_order.update_attributes!(currency: @currency.iso_code) if @currency && current_order
