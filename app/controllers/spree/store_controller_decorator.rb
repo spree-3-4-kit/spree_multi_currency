@@ -7,13 +7,13 @@ module Spree
       # START set_locale
       def set_locale
 
-          # IF the visitor has previously set a prefered currency, then set the store to use the visitors preffered currency.
-          if (!cookies[:customer_preffered_currency].blank?) && (cookies[:customer_preffered_currency]) != current_currency
-              params[:currency] = (cookies[:customer_preffered_currency])
+          # IF a preferred currency is set, then use the preferred currency.
+          if (cookies[:preferred_currency].present?) && (cookies[:preferred_currency]) != current_currency
+              params[:currency] = (cookies[:preferred_currency])
           end
 
-          # Only run the code below once, or no at all if the visitor has already set a prefered currency.
-          if session[:geo_currency].blank? && (cookies[:customer_preffered_currency].blank?)
+          # Only run the code below once, and only IF the visitor has NOT already set a preferred currency.
+          if session[:geo_currency].blank? && (cookies[:preferred_currency].blank?)
               # Define a list of countires that use Euros.
               euro_zone_countries = [ 'AT', 'BE', 'BG', 'HR', 'CY', 'CZ', 'DK', 'EE', 'FI', 'FR', 'DE', 'EL',
                                             'HU', 'IE', 'IT', 'LU', 'MT', 'NL', 'PL', 'PT', 'RO', 'SK', 'SI', 'ES', 'SV' ]
@@ -22,40 +22,40 @@ module Spree
               if locale == I18n.default_locale && !browser.bot?
 
                   # IF the visitor is located in a Euro Zone country (EZ)
-                  if euro_zone_countries.include? request.headers["CF-IPCountry"].to_s
-                    visitor_location = "EZ"
+                  if euro_zone_countries.include? request.headers['CF-IPCountry'].to_s
+                    visitor_location = 'EZ'
                     else
-                    visitor_location = request.headers["CF-IPCountry"].to_s
+                    visitor_location = request.headers['CF-IPCountry'].to_s
                   end
 
                   case visitor_location
                     when 'EZ'
-                      params[:currency] = "EUR"
+                      params[:currency] = 'EUR'
                     when 'GB'
-                      params[:currency] = "GBP"
+                      params[:currency] = 'GBP'
                     when 'AU'
-                      params[:currency] = "AUD"
+                      params[:currency] = 'AUD'
                     when 'CA'
-                      params[:currency] = "CAD"
+                      params[:currency] = 'CAD'
                     else
-                      params[:currency] = "USD"
+                      params[:currency] = 'USD'
                   end
 
               # ELSE check for language locale in the URL and set currency appropriately
               else
                   case locale
                     when :'de', :'fr', :'it', :'es', :'sv'
-                      params[:currency] = "EUR"
+                      params[:currency] = 'EUR'
                     when :'en-GB'
-                      params[:currency] = "GBP"
+                      params[:currency] = 'GBP'
                     when :'en-AU'
-                      params[:currency] = "AUD"
+                      params[:currency] = 'AUD'
                     when :'en-CA'
-                      params[:currency] = "CAD"
+                      params[:currency] = 'CAD'
                     when :'en-US'
-                      params[:currency] = "USD"
+                      params[:currency] = 'USD'
                     else
-                      params[:currency] = "USD"
+                      params[:currency] = 'USD'
                   end
               end
               session[:geo_currency] = params[:currency]

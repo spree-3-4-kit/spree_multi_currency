@@ -1,7 +1,9 @@
 module Spree
   class CurrencyController < StoreController
+
     def set
       @currency = supported_currencies.find { |currency| currency.iso_code == params[:currency] }
+
       # Make sure that we update the current order, so the currency change is reflected.
       current_order.update_attributes!(currency: @currency.iso_code) if current_order
       session[:currency] = params[:currency] if Spree::Config[:allow_currency_change]
@@ -11,8 +13,12 @@ module Spree
           # We want to go back to where we came from!
           redirect_back_or_default(root_path)
         end
-        (cookies[:customer_preffered_currency] = { value: params[:currency], expires: 1.year.from_now} )
+
+        # Set a long term cookie to persist the users preferred currency past the session duration.
+        (cookies[:preferred_currency] = { value: params[:currency], expires: 1.year.from_now })
       end
+
     end
+
   end
 end
