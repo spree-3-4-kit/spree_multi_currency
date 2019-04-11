@@ -16,7 +16,7 @@ module Spree
           if session[:geo_currency].blank? && (cookies[:preferred_currency].blank?)
               # Define a list of countires that use Euros.
               euro_zone_countries = [ 'AT', 'BE', 'BG', 'HR', 'CY', 'CZ', 'DK', 'EE', 'FI', 'FR', 'DE', 'EL',
-                                            'HU', 'IE', 'IT', 'LU', 'MT', 'NL', 'PL', 'PT', 'RO', 'SK', 'SI', 'ES', 'SV' ]
+                                    'HU', 'IE', 'IT', 'LU', 'MT', 'NL', 'PL', 'PT', 'RO', 'SK', 'SI', 'ES', 'SV' ]
 
               # IF the store is loaded with I18n.default_locale, and the visitor is not a bot.
               if locale == I18n.default_locale && !browser.bot?
@@ -68,15 +68,15 @@ module Spree
             end
           end
 
-        # Switches the currency based on the paremeters given.
-        if params[:currency].present?
-          @currency = supported_currencies.find { |currency| currency.iso_code == params[:currency] }
-          current_order.update_attributes!(currency: @currency.iso_code) if @currency && current_order
-          session[:currency] = params[:currency] if Spree::Config[:allow_currency_change]
-        end
+          # Switches the currency based on the paremeters given.
+          if params[:currency].present?
+            @currency = supported_currencies.find { |currency| currency.iso_code == params[:currency] }
+            current_order.update_attributes!(currency: @currency.iso_code) if @currency && current_order
+            session[:currency] = params[:currency] if Spree::Config[:allow_currency_change]
+          end
 
       end
-# END set_locale
+      # END set_locale
 
   end
 end
