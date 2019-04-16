@@ -68,6 +68,7 @@ module Spree
           if current_order
             if current_order.currency != current_currency
               params[:currency] = current_order.currency
+              (cookies[:preferred_currency] = { value: current_order.currency, expires: 1.year.from_now })
             end
           end
 
