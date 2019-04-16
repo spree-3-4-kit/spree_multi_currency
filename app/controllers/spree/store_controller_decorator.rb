@@ -13,10 +13,13 @@ module Spree
           end
 
           # Only run the code below once, and only IF the visitor has NOT already set a preferred currency.
-          if session[:geo_currency].blank? && (cookies[:preferred_currency].blank?)
+          if session[:currency].blank? && (cookies[:preferred_currency].blank?)
               # Define a list of countires that use Euros.
-              euro_zone_countries = [ 'AT', 'BE', 'BG', 'HR', 'CY', 'CZ', 'DK', 'EE', 'FI', 'FR', 'DE', 'EL',
-                                    'HU', 'IE', 'IT', 'LU', 'MT', 'NL', 'PL', 'PT', 'RO', 'SK', 'SI', 'ES', 'SV' ]
+              euro_zone_countries = [ 'AT', 'BE', 'BG', 'HR', 'CY',
+                                      'CZ', 'DK', 'EE', 'FI', 'FR',
+                                      'DE', 'EL', 'HU', 'IE', 'IT',
+                                      'LU', 'MT', 'NL', 'PL', 'PT',
+                                      'RO', 'SK', 'SI', 'ES', 'SV' ]
 
               # IF the store is loaded with I18n.default_locale, and the visitor is not a bot.
               if locale == I18n.default_locale && !browser.bot?
@@ -58,13 +61,13 @@ module Spree
                       params[:currency] = 'USD'
                   end
               end
-              session[:geo_currency] = params[:currency]
+              session[:currency] = params[:currency]
           end
 
-          # Keep the store currency and order currency in sync 
+          # Keep the store currency and order currency in sync
           if current_order
             if current_order.currency != current_currency
-              params[:currency] = current_currency
+              params[:currency] = current_order.currency
             end
           end
 
